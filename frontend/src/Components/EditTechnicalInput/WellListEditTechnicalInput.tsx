@@ -148,6 +148,7 @@ function WellListEditTechnicalInput({
         resizable: true,
         editable: true,
         onCellValueChanged: updateWells,
+        suppressMenu: true,
     }), [])
 
     const deleteWell = async (wellIdToDelete: string) => {
@@ -192,7 +193,10 @@ function WellListEditTechnicalInput({
             editable: false,
         },
         {
-            field: "drillingDays", headerName: "Drilling days", width: 110, flex: 1,
+            field: "drillingDays", 
+            headerName: "Drilling days", 
+            width: 110, 
+            flex: 1,
         },
         {
             field: "wellCost",
@@ -209,6 +213,7 @@ function WellListEditTechnicalInput({
             cellRenderer: deleteCellRenderer,
 
         },
+        
     ])
 
     const CreateWell = async () => {
