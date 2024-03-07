@@ -41,9 +41,7 @@ const CaseCostTab = (): React.ReactElement | null => {
         totalOtherStudies, setTotalOtherStudies,
         historicCostCostProfile, setHistoricCostCostProfile,
         additionalOPEXCostProfile, setAdditionalOPEXCostProfile,
-        activeTab, setActiveTab,
         exploration, setExploration,
-        drillingCost, setDrillingCost,
         totalStudyCost, setTotalStudyCost,
         productionAndSalesVolume, setProductionAndSalesVolume,
         oilCondensateProduction, setOilCondensateProduction,
@@ -68,6 +66,7 @@ const CaseCostTab = (): React.ReactElement | null => {
         totalFEEDStudiesOverride, setTotalFEEDStudiesOverride,
         totalFeasibilityAndConceptStudiesOverride, setTotalFeasibilityAndConceptStudiesOverride,
         gAndGAdminCostOverride, setGAndGAdminCostOverride,
+        cessationCost, setCessationCost
     } = useCaseContext()
     
     const { project } = useProjectContext()
@@ -104,9 +103,6 @@ const CaseCostTab = (): React.ReactElement | null => {
     // Exploration
     const [explorationWellCost, setExplorationWellCost] = useState<Components.Schemas.ExplorationWellCostProfileDto>()
 
-    const [startYear, setStartYear] = useState<number>(2020)
-    const [endYear, setEndYear] = useState<number>(2030)
-    const [tableYears, setTableYears] = useState<[number, number]>([2020, 2030])
 
     const studyGridRef = useRef<any>(null)
     const opexGridRef = useRef<any>(null)

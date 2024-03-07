@@ -31,8 +31,8 @@ interface CaseContextType {
     setTotalStudyCost: Dispatch<SetStateAction<ITimeSeries | undefined>>
     opexSum: Components.Schemas.OpexCostProfileDto | undefined
     setOpexSum: Dispatch<SetStateAction<Components.Schemas.OpexCostProfileDto | undefined>>
-    // cessationCost: Components.Schemas.SurfCessationCostProfileDto | undefined
-    // setCessationCost: Dispatch<SetStateAction<Components.Schemas.SurfCessationCostProfileDto | undefined>>
+    cessationCost: Components.Schemas.SurfCessationCostProfileDto | undefined
+    setCessationCost: Dispatch<SetStateAction<Components.Schemas.SurfCessationCostProfileDto | undefined>>
     offshoreFacilitiesOperationsCostProfile: Components.Schemas.OffshoreFacilitiesOperationsCostProfileDto | undefined
     setOffshoreFacilitiesOperationsCostProfile: Dispatch<SetStateAction<Components.Schemas.OffshoreFacilitiesOperationsCostProfileDto | undefined>>
     wellInterventionCostProfile: Components.Schemas.WellInterventionCostProfileDto | undefined
