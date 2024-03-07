@@ -58,7 +58,7 @@ const GalleryLabel = styled(Typography) <{ $warning: boolean }>`
     color: ${({ $warning }) => ($warning ? "red" : "rgba(111, 111, 111, 1)")};
 `
 const Gallery = () => {
-    const { isEditing } = useAppContext()
+    const { editMode } = useAppContext()
     const [gallery, setGallery] = useState<string[]>([])
     const [modalOpen, setModalOpen] = useState(false)
     const [expandedImage, setExpandedImage] = useState("")
