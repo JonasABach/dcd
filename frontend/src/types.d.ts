@@ -217,6 +217,10 @@ declare namespace Components {
         export interface CreateWellDto {
             name: string;
             wellCategory: WellCategory /* int32 */;
+            wellInterventionCost?: number; // double
+            plugingAndAbandonmentCost?: number; // double
+            wellCost?: number; // double
+            drillingDays?: number; // double
         }
         export type Currency = 1 | 2; // int32
         export interface DeleteWellDto {
@@ -978,7 +982,6 @@ declare namespace Components {
             startYear?: number; // int32
             values?: number /* double */[] | null;
             currency?: Currency /* int32 */;
-            override?: boolean;
         }
         export interface UpdateCessationWellsCostOverrideDto {
             startYear?: number; // int32
