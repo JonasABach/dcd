@@ -690,7 +690,7 @@ declare namespace Components {
             id?: string | null;
             sharepointFileUrl?: string | null;
             createdDateTime?: string | null; // date-time
-            content?: Stream;
+            content?: string | null; // binary
             size?: number | null; // int64
             sharepointIds?: SharepointIds;
             createdBy?: IdentitySet;
@@ -1003,6 +1003,8 @@ declare namespace Components {
             gasPriceNOK: number; // double
             discountRate: number; // double
             exchangeRateUSDToNOK: number; // double
+            calculatedTotalIncome: number; // double
+            calculatedTotalCosts: number; // double
         }
         export interface ProjectWithCasesDto {
             classification: ProjectClassification /* int32 */;
@@ -1028,6 +1030,12 @@ declare namespace Components {
             dailyEmissionFromDrillingRig: number; // double
             averageDevelopmentDrillingDays: number; // double
             cases: CaseDto[];
+            oilPriceUSD: number; // double
+            gasPriceNOK: number; // double
+            discountRate: number; // double
+            exchangeRateUSDToNOK: number; // double
+            calculatedTotalIncome: number; // double
+            calculatedTotalCosts: number; // double
         }
         export interface STEACaseDto {
             name?: string | null;
@@ -1083,16 +1091,6 @@ declare namespace Components {
             currency: Currency /* int32 */;
         }
         export type Source = 0 | 1; // int32
-        export interface Stream {
-            canRead?: boolean;
-            canWrite?: boolean;
-            canSeek?: boolean;
-            canTimeout?: boolean;
-            length?: number; // int64
-            position?: number; // int64
-            readTimeout?: number; // int32
-            writeTimeout?: number; // int32
-        }
         export interface StudyCostProfileDto {
             id: string; // uuid
             startYear: number; // int32
@@ -1637,6 +1635,8 @@ declare namespace Components {
             gasPriceNOK?: number; // double
             discountRate?: number; // double
             exchangeRateUSDToNOK?: number; // double
+            calculatedTotalIncome?: number; // double
+            calculatedTotalCosts?: number; // double
         }
         export interface UpdateSeismicAcquisitionAndProcessingDto {
             startYear?: number; // int32
@@ -2869,14 +2869,7 @@ declare namespace Paths {
             }
             export interface RequestBody {
                 projectName?: string;
-                ContentType?: string;
-                ContentDisposition?: string;
-                Headers?: {
-                    [name: string]: string[];
-                };
-                Length?: number; // int64
-                Name?: string;
-                FileName?: string;
+                image?: string; // binary
             }
             namespace Responses {
                 export type $200 = Components.Schemas.ImageDto;
@@ -3594,14 +3587,7 @@ declare namespace Paths {
             }
             export interface RequestBody {
                 projectName?: string;
-                ContentType?: string;
-                ContentDisposition?: string;
-                Headers?: {
-                    [name: string]: string[];
-                };
-                Length?: number; // int64
-                Name?: string;
-                FileName?: string;
+                image?: string; // binary
             }
             namespace Responses {
                 export type $200 = Components.Schemas.ImageDto;

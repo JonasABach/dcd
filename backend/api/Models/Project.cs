@@ -40,6 +40,8 @@ public class Project
     public double GasPriceNOK { get; set; }
     public double DiscountRate { get; set; }
     public double ExchangeRateUSDToNOK { get; set; }
+    public double CalculatedTotalIncome { get; set; }
+    public double CalculatedTotalCosts { get; set; }
 }
 
 public enum PhysUnit

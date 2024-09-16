@@ -60,4 +60,8 @@ public class ProjectWithCasesDto
     public double DiscountRate { get; set; }
     [Required]
     public double ExchangeRateUSDToNOK { get; set; }
+    [Required]
+    public double CalculatedTotalIncome { get; set; }
+    [Required]
+    public double CalculatedTotalCosts { get; set; }
 }
