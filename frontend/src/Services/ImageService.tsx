@@ -35,8 +35,27 @@ export class ImageService extends __BaseService {
         if (response) {
             return response
         }
-        
+
         throw new Error("Upload image response data is undefined")
+    }
+
+    public async updateCaseImageDescription(
+        projectId: string,
+        caseId: string,
+        imageId: string,
+        body: Components.Schemas.UpdateImageDto,
+    ): Promise<void> {
+        console.log("Payload being sent:", { body })
+        await this.put(`/projects/${projectId}/cases/${caseId}/images/${imageId}/description`, { body })
+    }
+
+    public async updateProjectImageDescription(
+        projectId: string,
+        imageId: string,
+        body: Components.Schemas.UpdateImageDto,
+    ): Promise<void> {
+        console.log("Components.Schemas.UpdateImageDto", body)
+        await this.put(`/projects/${projectId}/images/${imageId}/description`, { body })
     }
 }
 

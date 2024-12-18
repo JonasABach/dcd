@@ -5,7 +5,8 @@ using api.Features.Images.Service;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace api.Features.Images;
+namespace api.Features.Images.Service;
+
 
 public class ImageController(IBlobStorageService blobStorageService) : ControllerBase
 {
@@ -76,4 +77,46 @@ public class ImageController(IBlobStorageService blobStorageService) : Controlle
 
         return Ok(await blobStorageService.SaveImage(projectId, image, caseId));
     }
+
+
+    [HttpPut("projects/{projectId:guid}/images/{imageId:guid}/description")]
+    [ActionType(ActionType.Edit)]
+    [RequiresApplicationRoles(ApplicationRole.Admin, ApplicationRole.User)]
+    public async Task<IActionResult> UpdateProjectImageDescription([FromRoute] Guid projectId, [FromRoute] Guid imageId, [FromBody] UpdateImageDto updateImageDto)
+    {
+        if (updateImageDto == null)
+        {
+            return BadRequest("UpdateImageDto cannot be null.");
+        }
+
+        if (updateImageDto.Description == null)
+        {
+            return BadRequest("Description cannot be null.");
+        }
+
+        Console.WriteLine("UpdateImageDescription: " + updateImageDto.Description);
+        await blobStorageService.UpdateProjectImageDescription(projectId, imageId, updateImageDto);
+        return NoContent();
+    }
+
+    [HttpPut("projects/{projectId:guid}/cases/{caseId:guid}/images/{imageId:guid}/description")]
+    [ActionType(ActionType.Edit)]
+    [RequiresApplicationRoles(ApplicationRole.Admin, ApplicationRole.User)]
+    public async Task<IActionResult> UpdateCaseImageDescription([FromRoute] Guid projectId, [FromRoute] Guid caseId, [FromRoute] Guid imageId, [FromBody] UpdateImageDto updateImageDto)
+    {
+        if (updateImageDto == null)
+        {
+            return BadRequest("UpdateImageDto cannot be null.");
+        }
+
+        if (updateImageDto.Description == null)
+        {
+            return BadRequest("Description cannot be null.");
+        }
+
+        Console.WriteLine("UpdateImageDescription: " + updateImageDto.Description);
+        await blobStorageService.UpdateCaseImageDescription(projectId, imageId, updateImageDto);
+        return NoContent();
+    }
+
 }

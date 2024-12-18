@@ -1473,6 +1473,14 @@ declare namespace Components {
             values?: number /* double */[] | null;
             currency?: Currency /* int32 */;
         }
+        export interface UpdateImageDto {
+            imageId: string; // uuid
+            createTime: string; // date-time
+            description: string;
+            caseId: string; // uuid
+            projectId: string; // uuid
+            imageData: string;
+        }
         export interface UpdateImportedElectricityOverrideDto {
             startYear?: number; // int32
             values?: number /* double */[] | null;
@@ -3533,6 +3541,23 @@ declare namespace Paths {
                 projectId: Parameters.ProjectId /* uuid */;
                 imageId: Parameters.ImageId /* uuid */;
             }
+            namespace Responses {
+                export interface $200 {
+                }
+            }
+        }
+    }
+    namespace Projects$ProjectIdImages$ImageIdDescription {
+        namespace Put {
+            namespace Parameters {
+                export type ImageId = string; // uuid
+                export type ProjectId = string; // uuid
+            }
+            export interface PathParameters {
+                projectId: Parameters.ProjectId /* uuid */;
+                imageId: Parameters.ImageId /* uuid */;
+            }
+            export type RequestBody = Components.Schemas.UpdateImageDto;
             namespace Responses {
                 export interface $200 {
                 }

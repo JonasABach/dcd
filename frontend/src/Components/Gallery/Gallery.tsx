@@ -4,11 +4,15 @@ import styled from "styled-components"
 import { Icon, Button, Typography } from "@equinor/eds-core-react"
 import { delete_to_trash, expand_screen } from "@equinor/eds-icons"
 import { useParams } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import { useModuleCurrentContext } from "@equinor/fusion-framework-react-module-context"
 import ImageUpload from "./ImageUpload"
 import ImageModal from "./ImageModal"
 import { useAppContext } from "../../Context/AppContext"
 import { getImageService } from "../../Services/ImageService"
 import { useProjectContext } from "../../Context/ProjectContext"
+import SwitchableStringInput from "../Input/SwitchableStringInput"
+import { projectQueryFn } from "@/Services/QueryFunctions"
 
 const Wrapper = styled.div`
     display: flex;
@@ -63,15 +67,23 @@ const Gallery = () => {
     const [exeededLimit, setExeededLimit] = useState(false)
     const { caseId } = useParams()
     const { projectId } = useProjectContext()
+    const { currentContext } = useModuleCurrentContext()
+    const externalId = currentContext?.externalId
+
+    const { data: apiData } = useQuery({
+        queryKey: ["projectApiData", externalId],
+        queryFn: () => projectQueryFn(externalId),
+        enabled: !!externalId,
+    })
 
     useEffect(() => {
         const loadImages = async () => {
             if (projectId) {
                 try {
                     const imageService = await getImageService()
-                    const imageDtos = caseId ?
-                     await imageService.getCaseImages(projectId, caseId) :
-                     await imageService.getProjectImages(projectId)
+                    const imageDtos = caseId
+                        ? await imageService.getCaseImages(projectId, caseId)
+                        : await imageService.getProjectImages(projectId)
 
                     setGallery(imageDtos)
                 } catch (error) {
@@ -83,6 +95,34 @@ const Gallery = () => {
 
         loadImages()
     }, [projectId, caseId, setSnackBarMessage])
+
+    const handleDescriptionChange = async (imageId: string, newDescription: string) => {
+        setGallery((prevGallery) => prevGallery.map((image) => (image.imageId === imageId ? { ...image, description: newDescription } : image)))
+
+        try {
+            const imageService = await getImageService()
+            const image = gallery.find((img) => img.imageId === imageId)
+            if (image) {
+                const updateImageDto = {
+                    imageId: image.imageId,
+                    createTime: image.createTime,
+                    description: newDescription,
+                    caseId: image.caseId,
+                    projectId: image.projectId,
+                    imageData: image.imageData,
+                }
+                if (caseId) {
+                    await imageService.updateCaseImageDescription(image.projectId, image.caseId, image.imageId, updateImageDto)
+                } else {
+                    await imageService.updateProjectImageDescription(image.projectId, image.imageId, updateImageDto)
+                }
+                setSnackBarMessage("Description saved")
+            }
+        } catch (error) {
+            console.error("Error updating description:", error)
+            setSnackBarMessage("Error updating description")
+        }
+    }
 
     const handleDelete = async (imageId: string) => {
         try {
@@ -101,6 +141,10 @@ const Gallery = () => {
             console.error("Error deleting image:", error)
         }
     }
+    if (!apiData || !projectId) {
+        return null
+    }
+    const caseData = apiData.commonProjectAndRevisionData
 
     const handleExpand = (image: string) => {
         setExpandedImage(image)
@@ -132,6 +176,17 @@ const Gallery = () => {
                                 </Button>
                             </GalleryControls>
                         </ImageWithHover>
+                        {editMode && (
+                            <SwitchableStringInput
+                                label="Description"
+                                value={image.description || ""}
+                                resourceName="image"
+                                resourcePropertyKey="description"
+                                resourceId={image.imageId}
+                                previousResourceObject={image}
+                                addEdit={(newDescription: string) => handleDescriptionChange(image.imageId, newDescription)}
+                            />
+                        )}
                     </div>
                 ))}
                 {editMode && gallery.length < 4 && (

@@ -44,7 +44,7 @@ public class BlobStorageService(BlobServiceClient blobServiceClient,
             Url = imageUrl,
             CreateTime = createTime,
             CaseId = caseId,
-            ProjectId = projectId
+            ProjectId = projectId,
         };
 
         context.Images.Add(imageEntity);
@@ -153,5 +153,60 @@ public class BlobStorageService(BlobServiceClient blobServiceClient,
             ProjectId = imageEntity.ProjectId,
             ImageData = base64EncodedImage
         };
+    }
+
+    public async Task UpdateCaseImageDescription(Guid projectId, Guid imageId, UpdateImageDto updatedImageDto)
+    {   
+        var caseId = updatedImageDto.CaseId;
+        if (updatedImageDto == null)
+        {
+            throw new ArgumentNullException(nameof(updatedImageDto), "UpdateImageDto cannot be null.");
+        }
+
+        var image = await context.Images
+            .Where(i => i.CaseId == caseId && i.Id == imageId)
+            .SingleOrDefaultAsync();
+
+        if (image == null)
+        {
+            throw new KeyNotFoundException($"Image with id {imageId} not found.");
+        }
+
+        if (updatedImageDto.Description == null)
+        {
+            throw new ArgumentNullException(nameof(updatedImageDto.Description), "Description cannot be null.");
+        }
+
+        Console.WriteLine("Updating image description to: " + updatedImageDto.Description);
+        image.Description = updatedImageDto.Description;
+        context.Images.Update(image);
+        await context.SaveChangesAsync();
+    }
+
+        public async Task UpdateProjectImageDescription(Guid projectId, Guid imageId, UpdateImageDto updatedImageDto)
+    {
+        if (updatedImageDto == null)
+        {
+            throw new ArgumentNullException(nameof(updatedImageDto), "UpdateImageDto cannot be null.");
+        }
+
+        var image = await context.Images
+            .Where(i => i.ProjectId == projectId && i.Id == imageId)
+            .SingleOrDefaultAsync();
+
+        if (image == null)
+        {
+            throw new KeyNotFoundException($"Image with id {imageId} not found.");
+        }
+
+        if (updatedImageDto.Description == null)
+        {
+            throw new ArgumentNullException(nameof(updatedImageDto.Description), "Description cannot be null.");
+        }
+
+        Console.WriteLine("Updating image description to: " + updatedImageDto.Description);
+        image.Description = updatedImageDto.Description;
+        context.Images.Update(image);
+        await context.SaveChangesAsync();
     }
 }

@@ -64,10 +64,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ setGallery, gallery, setExeed
             if (apiData && caseId) {
                 try {
                     const imageService = await getImageService()
-                    const imageDtos = caseId ?
-                        await imageService.getCaseImages(projectId, caseId) :
-                        await imageService.getProjectImages(projectId)
-                    
+                    const imageDtos = caseId
+                        ? await imageService.getCaseImages(projectId, caseId)
+                        : await imageService.getProjectImages(projectId)
+
                     setGallery(imageDtos)
                 } catch (error) {
                     console.error("Error loading images:", error)

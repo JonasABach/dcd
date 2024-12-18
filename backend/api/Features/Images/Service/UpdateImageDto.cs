@@ -1,0 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace api.Features.Images.Service;
+ 
+public class UpdateImageDto
+{
+    [Required] public required Guid ImageId { get; set; }
+    [Required] public required DateTimeOffset CreateTime { get; set; }
+    [Required] public string? Description { get; set; }
+    [Required] public required Guid? CaseId { get; set; }
+    [Required] public required Guid ProjectId { get; set; }
+    [Required] public required string ImageData { get; set; }
+}

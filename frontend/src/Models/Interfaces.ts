@@ -28,7 +28,7 @@ export type ProfileNames = "cessationWellsCostOverride" | "cessationOffshoreFaci
     "oilProducerCostProfileOverride" | "gasProducerCostProfileOverride" | "waterInjectorCostProfileOverride" | "gasInjectorCostProfileOverride" |
     "seismicAcquisitionAndProcessing" | "countryOfficeCost" | "explorationWellCostProfile" | "appraisalWellCostProfile" |
     "sidetrackCostProfile" | "surfCostOverride" | "topsideCostOverride" | "substructureCostOverride" | "transportCostOverride" |
-    "co2EmissionsOverride" | "co2Intensity" | "onshorePowerSupplyCostProfile" | "onshorePowerSupplyCostOverride"
+    "co2EmissionsOverride" | "co2Intensity" | "onshorePowerSupplyCostProfile" | "onshorePowerSupplyCostOverride" | "image"
 
 export type ResourceObject =
     Components.Schemas.TopsideDto |
@@ -75,7 +75,8 @@ export type ProfileObject =
     Components.Schemas.WaterInjectorCostProfileOverrideDto |
     Components.Schemas.GasInjectorCostProfileOverrideDto |
     Components.Schemas.SeismicAcquisitionAndProcessingDto |
-    Components.Schemas.CountryOfficeCostDto;
+    Components.Schemas.CountryOfficeCostDto |
+    Components.Schemas.ImageDto;
 
 export type ResourcePropertyKey =
     keyof Components.Schemas.TopsideDto |
